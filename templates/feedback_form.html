@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>{{ form_title }}</h2>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <div class="form-group">
+                    {{ field.label }}
+                    {{ field(class="form-control") }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ url_for('show_user_details', username=session['username']) }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

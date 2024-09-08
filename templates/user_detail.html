@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="mb-4">User Details</h1>
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">User Details</h5>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <div>
+                <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mb-4">Please leave your feedback!</h2>
+
+    {% if feedbacks %}
+        <div class="list-group mb-4">
+            {% for feedback in feedbacks %}
+                <div class="list-group-item mb-3">
+                    <h5 class="mb-2"><strong>{{ feedback.title }}</strong></h5><br>
+                    <p>{{ feedback.content }}</p>
+                    
+                    <div class="mt-4">
+                        <a href="{{ url_for('process_update_feedback', feedback_id=feedback.id) }}" class="btn btn-primary">Edit</a>
+                        <form action="{{ url_for('delete_feedback', feedback_id=feedback.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No feedback provided yet.</p>
+    {% endif %}
+
+    <!-- Links to add new feedback and delete account -->
+    <div class="mt-4">
+        <a href="{{ url_for('add_feedback', username=user.username) }}" class="btn btn-success">Add New Feedback</a>
+        <form action="{{ url_for('delete_user', username=user.username) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete Account</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+        
